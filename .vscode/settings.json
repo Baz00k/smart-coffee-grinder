@@ -1,0 +1,34 @@
+{
+   // Loaded Stubs:  micropython-stdlib-stubs  micropython-esp32-stubs
+
+   "python.languageServer": "Pylance",
+   "python.analysis.autoSearchPath": true,
+   "python.autoComplete.extraPaths": [
+      ".micropy/micropython_stdlib_stubs-1.1.2/stdlib",
+      ".micropy/micropython_esp32_stubs-1.22.0.post1",
+      ".micropy/BradenM-micropy-stubs-4f5a52a/frozen",
+      ".micropy/smart-coffee-grinder"
+   ],
+   "python.analysis.diagnosticSeverityOverrides": { "reportMissingModuleSource": "none" },
+   "python.analysis.typeCheckingMode": "basic",
+   "python.autoComplete.typeshedPaths": [
+      ".micropy/micropython_stdlib_stubs-1.1.2/stdlib",
+      ".micropy/micropython_esp32_stubs-1.22.0.post1",
+      ".micropy/BradenM-micropy-stubs-4f5a52a/frozen",
+      ".micropy/smart-coffee-grinder",
+      "typings"
+   ],
+   "python.analysis.typeshedPaths": [
+      ".micropy/micropython_stdlib_stubs-1.1.2/stdlib",
+      ".micropy/micropython_esp32_stubs-1.22.0.post1",
+      ".micropy/BradenM-micropy-stubs-4f5a52a/frozen",
+      ".micropy/smart-coffee-grinder",
+      "typings"
+   ],
+   "python.analysis.extraPaths": [
+      ".micropy/micropython_stdlib_stubs-1.1.2/stdlib",
+      ".micropy/micropython_esp32_stubs-1.22.0.post1",
+      ".micropy/BradenM-micropy-stubs-4f5a52a/frozen",
+      ".micropy/smart-coffee-grinder"
+   ]
+}

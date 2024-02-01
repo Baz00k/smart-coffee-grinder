@@ -1,0 +1,15 @@
+{
+    "name": "smart-coffee-grinder",
+    "stubs": {
+        "micropython-stdlib-stubs": "1.1.2",
+        "micropython-esp32-stubs": "1.22.0.post1"
+    },
+    "dev-packages": {
+        "micropy-cli": "*"
+    },
+    "packages": {},
+    "config": {
+        "vscode": true,
+        "pylint": true
+    }
+}
