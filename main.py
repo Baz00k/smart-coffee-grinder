@@ -22,12 +22,6 @@ TARGET_REFRESH_RATE = const(1000 // TARGET_REFRESH_RATE_HZ)
 grinder_running = False
 
 
-async def grind(seconds: float, transistor: Pin):
-    transistor.on()
-    await asyncio.sleep(seconds)
-    transistor.off()
-
-
 def display_float(seconds: float, display: Display) -> float:
     """Display the time on the screen and return the time it took to display"""
     start_time = time.ticks_ms()
@@ -46,26 +40,31 @@ def display_float(seconds: float, display: Display) -> float:
 
 async def start_grind(time_getter, transistor: Pin, display: Display):
     global grinder_running
-    seconds = time_getter()
 
     if grinder_running:
         return
+
     grinder_running = True
+    seconds = time_getter()
 
-    asyncio.create_task(grind(seconds, transistor))
-
+    transistor.on()
     start_time = time.ticks_ms()
+
     while True:
         current_time = (time.ticks_ms() - start_time) / 1000
-        if current_time > seconds:
-            break
-
         update_time = display_float(current_time, display)
         sleep_time = max(0, int(TARGET_REFRESH_RATE - update_time))
+
+        # Do not run next loop if the time is close to the target
+        if abs(seconds - current_time) <= sleep_time / 1000 or current_time > seconds:
+            break
+
         await asyncio.sleep_ms(sleep_time)
 
-    asyncio.create_task(store_grinding_time(seconds))
+    transistor.off()
     grinder_running = False
+
+    asyncio.create_task(store_grinding_time(seconds))
 
 
 async def store_grinding_time(seconds: float):
