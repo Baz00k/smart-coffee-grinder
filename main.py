@@ -1,10 +1,10 @@
 import uasyncio as asyncio
 from micropython import const
 from machine import SoftI2C, Pin
-from encoder_async import Encoder
-from button import Pushbutton
-from display import Display
-import time
+from primitives.encoder_async import Encoder
+from primitives.button_async import Pushbutton
+from primitives.display import Display
+from time import ticks_ms
 
 _PIN_BUTTON = const(4)
 _PIN_ENCODER_A = const(9)
@@ -24,7 +24,7 @@ grinder_running = False
 
 def display_float(seconds: float, display: Display) -> float:
     """Display the time on the screen and return the time it took to display"""
-    start_time = time.ticks_ms()
+    start_time = ticks_ms()
     display.fb.fill(0)
     str_seconds = f"{seconds:.1f}"
     length = len(str_seconds)
@@ -34,7 +34,7 @@ def display_float(seconds: float, display: Display) -> float:
         (SCREEN_HEIGHT - 8 * DISPLAY_SCALE) // 2,
         DISPLAY_SCALE,
     )
-    end_time = time.ticks_ms()
+    end_time = ticks_ms()
     return end_time - start_time
 
 
@@ -48,10 +48,10 @@ async def start_grind(time_getter, transistor: Pin, display: Display):
     seconds = time_getter()
 
     transistor.on()
-    start_time = time.ticks_ms()
+    start_time = ticks_ms()
 
     while True:
-        current_time = (time.ticks_ms() - start_time) / 1000
+        current_time = (ticks_ms() - start_time) / 1000
         update_time = display_float(current_time, display)
         sleep_time = max(0, int(TARGET_REFRESH_RATE - update_time))
 
@@ -68,13 +68,13 @@ async def start_grind(time_getter, transistor: Pin, display: Display):
 
 
 async def store_grinding_time(seconds: float):
-    with open("grinding_time.txt", "w") as f:
+    with open("grinding_txt", "w") as f:
         f.write(str(seconds))
 
 
 async def read_grinding_time():
     try:
-        with open("grinding_time.txt", "r") as f:
+        with open("grinding_txt", "r") as f:
             return float(f.read())
     except Exception:
         return 10.0

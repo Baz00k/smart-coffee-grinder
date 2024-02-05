@@ -1,4 +1,4 @@
-import framebuf2 as framebuf
+import primitives.framebuf_extended as framebuf
 import uasyncio as asyncio
 import time
 

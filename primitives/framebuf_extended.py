@@ -1,23 +1,3 @@
-# this code is distributed under the MIT licence.
-
-"""
-frambuf2 v209: micropython framebuffer extensions
-(c) 2022-2023 Peter Lumb (peter-l5)
-
-acknowledgement
-the methods: circle() and triangle() are based on the
-adafruit micropython gfx library:
-See repository: https://github.com/adafruit/micropython-adafruit-gfx
-that library was: 
-Port of Adafruit GFX Arduino library to MicroPython
-Based on: https://github.com/adafruit/Adafruit-GFX-Library
-Author: Tony DiCola (original GFX author Phil Burgess)
-License: MIT License (https://opensource.org/licenses/MIT)
-"""
-
-__version__ = "v209"
-__repo__ = "https://github.com/peter-l5/framebuf2"
-
 import framebuf
 
 # constants available in MicroPython 1.19.1
@@ -43,7 +23,7 @@ class FrameBuffer(framebuf.FrameBuffer):
         writes text, s,
         to co-cordinates x, y
         size multiple, m (integer, eg: 1,2,3,4. a value of 2 produces 16x16 pixel characters)
-        colour, c [optional parameter, default value c=1]
+        color, c [optional parameter, default value c=1]
         optional parameter, r is rotation of the text: 0, 90, 180, or 270 degrees
         optional parameter, t is rotation of each character within the text: 0, 90, 180, or 270 degrees
         """
