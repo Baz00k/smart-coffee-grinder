@@ -23,7 +23,6 @@ grinder_running = False
 
 
 async def grind(seconds: float, transistor: Pin):
-    # Grind for `seconds` seconds
     transistor.on()
     await asyncio.sleep(seconds)
     transistor.off()
@@ -65,7 +64,21 @@ async def start_grind(time_getter, transistor: Pin, display: Display):
         sleep_time = max(0, int(TARGET_REFRESH_RATE - update_time))
         await asyncio.sleep_ms(sleep_time)
 
+    asyncio.create_task(store_grinding_time(seconds))
     grinder_running = False
+
+
+async def store_grinding_time(seconds: float):
+    with open("grinding_time.txt", "w") as f:
+        f.write(str(seconds))
+
+
+async def read_grinding_time():
+    try:
+        with open("grinding_time.txt", "r") as f:
+            return float(f.read())
+    except Exception:
+        return 10.0
 
 
 async def main():
@@ -91,7 +104,7 @@ async def main():
     transistor = Pin(_PIN_TRANSISTOR, Pin.OUT)
     button = Pushbutton(Pin(_PIN_BUTTON, Pin.IN, Pin.PULL_UP))
 
-    target_time = 10.0
+    target_time = await asyncio.create_task(read_grinding_time())
     rotation_raw = 0
     rotation_prev = 0
 
@@ -101,13 +114,14 @@ async def main():
     button.press_func(start_grind, args=(get_target_time, transistor, display))  # type: ignore
 
     while True:
-        # Do not change target time while grinding
-        if grinder_running:
-            await asyncio.sleep_ms(500)
-            continue
-
         rotation_prev = rotation_raw
         rotation_raw = encoder.value()
+
+        # Do not change target time while grinding
+        if grinder_running:
+            await asyncio.sleep_ms(100)
+            continue
+
         diff = rotation_raw - rotation_prev
 
         # value should be between 1 and 25 with increments of 0.5
