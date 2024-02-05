@@ -9,9 +9,9 @@ import time
 _PIN_BUTTON = const(4)
 _PIN_ENCODER_A = const(9)
 _PIN_ENCODER_B = const(10)
-_PIN_SCL = const(7)
-_PIN_SDA = const(6)
-_PIN_TRANSISTOR = const(5)
+_PIN_SDA = const(5)
+_PIN_SCL = const(6)
+_PIN_TRANSISTOR = const(7)
 SCREEN_WIDTH = const(128)
 SCREEN_HEIGHT = const(64)
 DISPLAY_SCALE = const(3)  # Default font is 8x8 so we need to scale it up
