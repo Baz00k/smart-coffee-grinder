@@ -55,10 +55,13 @@ async def start_grind(time_getter, transistor: Pin, display: Display):
 
     asyncio.create_task(grind(seconds, transistor))
 
-    current_time = 0.0
-    while current_time < seconds:
+    start_time = time.ticks_ms()
+    while True:
+        current_time = (time.ticks_ms() - start_time) / 1000
+        if current_time > seconds:
+            break
+
         update_time = display_float(current_time, display)
-        current_time += update_time / 100  # Convert to seconds
         sleep_time = max(0, int(TARGET_REFRESH_RATE - update_time))
         await asyncio.sleep_ms(sleep_time)
 
