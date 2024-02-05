@@ -1,6 +1,4 @@
 {
-   // Loaded Stubs:  micropython-stdlib-stubs  micropython-esp32-stubs
-
    "python.languageServer": "Pylance",
    "python.analysis.autoSearchPath": true,
    "python.autoComplete.extraPaths": [
@@ -9,7 +7,9 @@
       ".micropy/BradenM-micropy-stubs-4f5a52a/frozen",
       ".micropy/smart-coffee-grinder"
    ],
-   "python.analysis.diagnosticSeverityOverrides": { "reportMissingModuleSource": "none" },
+   "python.analysis.diagnosticSeverityOverrides": {
+      "reportMissingModuleSource": "none"
+   },
    "python.analysis.typeCheckingMode": "basic",
    "python.autoComplete.typeshedPaths": [
       ".micropy/micropython_stdlib_stubs-1.1.2/stdlib",
