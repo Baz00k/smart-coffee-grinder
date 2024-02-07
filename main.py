@@ -17,7 +17,7 @@ MAX_GRIND_TIME = const(25)
 SCREEN_WIDTH = const(128)
 SCREEN_HEIGHT = const(64)
 DISPLAY_SCALE = const(3)  # Default font is 8x8 so we need to scale it up
-TARGET_REFRESH_RATE_HZ = const(20)
+TARGET_REFRESH_RATE_HZ = const(25)
 TARGET_REFRESH_RATE = const(1000 // TARGET_REFRESH_RATE_HZ)
 
 
