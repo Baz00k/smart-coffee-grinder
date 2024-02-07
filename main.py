@@ -12,6 +12,8 @@ _PIN_ENCODER_B = const(10)
 _PIN_SDA = const(5)
 _PIN_SCL = const(6)
 _PIN_TRANSISTOR = const(7)
+MIN_GRIND_TIME = const(1)
+MAX_GRIND_TIME = const(25)
 SCREEN_WIDTH = const(128)
 SCREEN_HEIGHT = const(64)
 DISPLAY_SCALE = const(3)  # Default font is 8x8 so we need to scale it up
@@ -38,10 +40,11 @@ def display_float(seconds: float, display: Display) -> float:
     return end_time - start_time
 
 
-async def start_grind(time_getter, transistor: Pin, display: Display):
+async def toggle_grinder(time_getter, transistor: Pin, display: Display):
     global grinder_running
 
     if grinder_running:
+        grinder_running = False
         return
 
     grinder_running = True
@@ -50,7 +53,7 @@ async def start_grind(time_getter, transistor: Pin, display: Display):
     transistor.on()
     start_time = ticks_ms()
 
-    while True:
+    while grinder_running:
         current_time = (ticks_ms() - start_time) / 1000
         update_time = display_float(current_time, display)
         sleep_time = max(0, int(TARGET_REFRESH_RATE - update_time))
@@ -110,7 +113,7 @@ async def main():
     def get_target_time() -> float:
         return target_time
 
-    button.press_func(start_grind, args=(get_target_time, transistor, display))  # type: ignore
+    button.press_func(toggle_grinder, args=(get_target_time, transistor, display))  # type: ignore
 
     while True:
         rotation_prev = rotation_raw
@@ -123,8 +126,8 @@ async def main():
 
         diff = rotation_raw - rotation_prev
 
-        # value should be between 1 and 25 with increments of 0.5
-        target_time = max(1, min(target_time + diff / 2, 25))
+        # value should be between min and max with increments of 0.5
+        target_time = max(MIN_GRIND_TIME, min(target_time + diff / 2, MAX_GRIND_TIME))
 
         update_time = display_float(target_time, display)
         await asyncio.sleep_ms(max(0, int(TARGET_REFRESH_RATE - update_time)))
