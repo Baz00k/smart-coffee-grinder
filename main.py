@@ -6,12 +6,12 @@ from primitives.button_async import Pushbutton
 from primitives.display import Display
 from time import ticks_ms
 
-_PIN_BUTTON = const(4)
+_PIN_BUTTON = const(8)
 _PIN_ENCODER_A = const(9)
 _PIN_ENCODER_B = const(10)
 _PIN_SDA = const(5)
 _PIN_SCL = const(6)
-_PIN_TRANSISTOR = const(7)
+_PIN_TRANSISTOR = const(20)
 MIN_GRIND_TIME = const(1)
 MAX_GRIND_TIME = const(25)
 SCREEN_WIDTH = const(128)
